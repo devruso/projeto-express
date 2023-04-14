@@ -1,5 +1,6 @@
 const express = require("express");
-const {alunos, encontrarAlunoNome, encontrarAlunoNota} = require("./modules/alunos.js")
+const fs = require("fs");
+const {alunos, encontrarAlunoNome, encontrarAlunoNota, adicionarAluno} = require("./modules/alunos.js")
 
 const app = express();
 
@@ -7,7 +8,6 @@ app.use(express.json());
 
 app.get("/alunos", (req, res) =>{
      const {nome,nota} = req.query;
-
      if(nome){
         let alunoEncontrado = encontrarAlunoNome(nome);
         if(alunoEncontrado){
@@ -18,26 +18,40 @@ app.get("/alunos", (req, res) =>{
      }
      if(nota){
         let notaEncontrada = encontrarAlunoNota(nota);
-        if(notaEncontrada){
+        if(notaEncontrada.length > 0){
             res.json(notaEncontrada);
         }else{
             res.status(404).json({message:"Nota não encontrada"});
         }
+     }
+     if(!nota && !nome){
+        res.json(alunos)
      }
 })
 
 app.post("/alunos/novo", (req, res) => {
   const { nome, matricula, media, email } = req.body;
   if (nome && matricula && media && email) {
-    let lastIndex = alunos.length > 0 ? alunos[alunos.length - 1].id : -1;
-    alunos.push({
-      id: lastIndex + 1,
-      nome: nome,
-      email: email,
-      matricula: matricula,
-      media: media,
-    });
-    res.json("Aluno adicionado com sucesso");
+    const novoAluno = {
+        id: alunos.length,
+        nome: nome,
+        email: email,
+        matricula: matricula,
+        media: media,
+      };
+    alunos.push(novoAluno);
+    try{
+                // const dadosAluno =  fs.readFileSync("alunos.js","utf-8");
+                // const objetoAlunos = JSON.parse(dadosAluno);
+                // objetoAlunos.alunos = alunos;
+                // const jsonAlunos = JSON.stringify(objetoAlunos);
+                // fs.writeFileSync("alunos.js", jsonAlunos);
+                res.json({ message: "Aluno inserido com sucesso" });
+    }catch(err){
+        console.log(err);
+        res.status(500).json({message: "Erro ao inserir o aluno"});
+    }
+    
   } else {
     res.status(400).json({ message: "Insira dados válidos" });
   }
