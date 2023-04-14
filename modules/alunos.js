@@ -1,4 +1,4 @@
-const alunos = [
+let alunos = [
     {
         id:0,
         nome : "Jamilson Pestana Júnior",

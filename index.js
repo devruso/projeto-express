@@ -18,7 +18,6 @@ app.get("/alunos", (req, res) =>{
      }
      if(nota){
         let notaEncontrada = encontrarAlunoNota(nota);
-        console.log(notaEncontrada)
         if(notaEncontrada){
             res.json(notaEncontrada);
         }else{
@@ -27,9 +26,22 @@ app.get("/alunos", (req, res) =>{
      }
 })
 
-app.post("alunos/novo", (req,res) =>{
-    const {nome, matricula, media} = req.query;
-})
+app.post("/alunos/novo", (req, res) => {
+  const { nome, matricula, media, email } = req.body;
+  if (nome && matricula && media && email) {
+    let lastIndex = alunos.length > 0 ? alunos[alunos.length - 1].id : -1;
+    alunos.push({
+      id: lastIndex + 1,
+      nome: nome,
+      email: email,
+      matricula: matricula,
+      media: media,
+    });
+    res.json("Aluno adicionado com sucesso");
+  } else {
+    res.status(400).json({ message: "Insira dados válidos" });
+  }
+});
 
 app.listen(3000, ()=>{
     console.log("Executando na porta http://localhost:3000/")
