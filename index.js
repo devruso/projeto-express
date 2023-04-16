@@ -1,5 +1,5 @@
 const express = require("express");
-const fs = require("fs");
+const morgan = require("morgan");
 let {
   alunos,
   encontrarAlunoNome,
@@ -13,6 +13,7 @@ let {
 const app = express();
 
 app.use(express.json());
+app.use(morgan('combined'));
 
 app.get("/alunos", (req, res) => {
   const { nome, nota } = req.query;
