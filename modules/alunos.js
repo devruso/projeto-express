@@ -13,7 +13,7 @@ const dbLoad = () =>{
       return JSON.parse(data);
     }catch (e){
       console.log(e);
-      return [];
+      return {alunos : []};
     }
 }
 
@@ -28,6 +28,7 @@ function encontrarAlunoNota(nota){
     return notaEncontrada;
 }
 function adicionarAluno(nome, matricula, media, email){
+  try{
     const alunos = dbLoad().alunos;
     const novoAluno = {
         id: alunos.length,
@@ -39,6 +40,10 @@ function adicionarAluno(nome, matricula, media, email){
       alunos.push(novoAluno);
       dbAtt(alunos);
       return novoAluno;
+  }catch (e){
+    console.log(e);
+    throw new Error("Erro ao adicionar aluno: " + e.message);
+  }
 }
 
 function atualizarAluno(nome, media, id) {
@@ -55,8 +60,8 @@ function atualizarAluno(nome, media, id) {
   }
 
 function deletarAluno(index){
-  alunos = dbLoad().alunos;
-  let indexEncontrado = alunos.findIndex(el => el.id === parseInt(index));
+  const alunos = dbLoad().alunos;
+  let indexEncontrado = alunos.findIndex(el => el.id === Number(index));
   if(indexEncontrado === -1){
     return "Index inválido";
   }else{
