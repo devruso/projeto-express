@@ -6,7 +6,8 @@ let {
   encontrarAlunoNota,
   adicionarAluno,
   atualizarAluno,
-  deletarAluno
+  deletarAluno,
+  dbLoad
 } = require("./modules/alunos.js");
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.get("/alunos", (req, res) => {
   const { nome, nota } = req.query;
+  const alunos = dbLoad().alunos;
   if (nome) {
     let alunoEncontrado = encontrarAlunoNome(nome);
     if (alunoEncontrado) {
@@ -48,7 +50,8 @@ app.post("/alunos/novo", (req, res) => {
 
 app.delete("/alunos/deletar/:index", (req, res) => {
   const index = req.params.index;
-  if (alunos.length -1 > index) {
+  const alunos = dbLoad().alunos;
+  if (alunos.length -1 >= index) {
     deletarAluno(index);
     res.json({message: "Aluno deletado com sucesso"});
   } else {
@@ -59,6 +62,7 @@ app.delete("/alunos/deletar/:index", (req, res) => {
 app.put("/alunos/atualizar/:index", (req, res) =>{
   const {nome, media} = req.body;
   const index = parseInt(req.params.index);
+  const alunos = dbLoad().alunos;
   if(nome && media){
     if(index <= alunos.length){
        atualizarAluno(nome,media,index);
