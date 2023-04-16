@@ -46,7 +46,7 @@ app.post("/alunos/novo", (req, res) => {
   }
 });
 
-app.post("/alunos/deletar/:index", (req, res) => {
+app.delete("/alunos/deletar/:index", (req, res) => {
   const index = req.params.index;
   if (alunos.length -1 > index) {
     deletarAluno(index);
@@ -56,7 +56,7 @@ app.post("/alunos/deletar/:index", (req, res) => {
   }
 });
 
-app.post("/alunos/atualizar/:index", (req, res) =>{
+app.put("/alunos/atualizar/:index", (req, res) =>{
   const {nome, media} = req.body;
   const index = parseInt(req.params.index);
   if(nome && media){

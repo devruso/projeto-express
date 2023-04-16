@@ -62,25 +62,24 @@ function adicionarAluno(nome, matricula, media, email){
       return novoAluno;
 }
 
-
-function atualizarAluno(nome, media, index){ 
-    alunos.map((el) =>{
-        if(el.id === index){
-            el.nome = nome;
-            el.media = media;
-            return el;
-        }else{
-            return "Index inválido";
-        }
-    })
-}
+function atualizarAluno(nome, media, id) {
+    const aluno = alunos.find(aluno => aluno.id === id);
+    if (aluno) {
+      aluno.nome = nome;
+      aluno.media = media;
+      return aluno;
+    } else {
+      return "Aluno não encontrado";
+    }
+  }
 
 function deletarAluno(index){
-    let novoAlunos = alunos.filter((el) => {
-        return el.id !== parseInt(index);
-      });
-      return alunos = novoAlunos;
-      
+  let indexEncontrado = alunos.findIndex(el => el.id === parseInt(index));
+  if(indexEncontrado === -1){
+    return "Index inválido";
+  }else{
+    alunos.splice(indexEncontrado,1);
+    return alunos;
+  }
 }
-
 module.exports = {alunos, encontrarAlunoNome,encontrarAlunoNota,adicionarAluno, atualizarAluno, deletarAluno};
