@@ -30,8 +30,9 @@ function encontrarAlunoNota(nota){
 function adicionarAluno(nome, matricula, media, email){
   try{
     const alunos = dbLoad().alunos;
+
     const novoAluno = {
-        id: alunos.length,
+        id: alunos.length > 0 ? alunos[alunos.length -1].id +1 : 1,
         nome: nome,
         email: email,
         matricula: matricula,

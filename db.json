@@ -41,6 +41,13 @@
       "email": "jamboRoger@email.com",
       "matricula": 123456,
       "media": 8.8
+    },
+    {
+      "id": 7,
+      "nome": "Vanderleidson Antoniel",
+      "email": "vanderleidson@email.com",
+      "matricula": 4846547,
+      "media": 7.8
     }
   ]
 }
