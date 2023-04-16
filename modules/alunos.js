@@ -3,7 +3,7 @@ const fs = require("fs");
 
 function dbAtt(array){
     const data = {alunos: array};
-    const jsonData = JSON.stringify(data);
+    const jsonData = JSON.stringify(data, null, 2);
     fs.writeFileSync("db.json",jsonData);
 }
 
@@ -50,7 +50,7 @@ function atualizarAluno(nome, media, id) {
       dbAtt(alunos);
       return aluno;
     } else {
-      return "Aluno não encontrado";
+      return !aluno;
     }
   }
 
