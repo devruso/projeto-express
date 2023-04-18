@@ -1,4 +1,4 @@
-## API RESTful com Express.js
+## API REST com Express.js
 
 link da documentação no postman:
 
